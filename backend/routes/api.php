@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\GoogleController;
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -13,6 +14,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/google', [AuthController::class, 'google']);
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendEmail']);
+Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
