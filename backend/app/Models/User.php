@@ -49,4 +49,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function dailyKins()
+    {
+        return $this->hasMany(UserDailyKin::class);
+    }
+
+    public function oracleReadings()
+    {
+        return $this->hasMany(UserOracleReading::class);
+    }
 }
