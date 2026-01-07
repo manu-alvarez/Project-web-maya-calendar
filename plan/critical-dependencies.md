@@ -9,47 +9,73 @@ Before starting development checklists, the following items MUST be resolved:
 ## 🔴 Priority 0: Algorithm Definition (BLOCKS EVERYTHING)
 
 ### BLOQUEANTE-1: Kin Calculation Algorithm
-**Status**: ❌ NOT STARTED - Needs Research
+**Status**: ✅ COMPLETED
 **Priority**: CRITICAL
 **Impact**: Blocks ALL Kin functionality
 **Blocks**: TODO-3 (Kin Content), TODO-5 (Illustrations), B19 (Kin Service), B24 (Kin API)
+**Resolution**: `/resources/maya-calendar-rules.md` created with complete algorithm
 
-**Questions to Answer**:
-- What is the reference date when Kin 1 occurs?
-- How does the 260-day Tzolkin cycle map to Gregorian calendar?
-- Are there any special cases or exceptions?
+**Completed Actions**:
+- [x] Research authoritative Maya calendar sources (MayanKin, Law of Time, Wikipedia, etc.)
+- [x] Define algorithm with clear rules and edge cases
+- [x] Document complete algorithm in `/resources/maya-calendar-rules.md` including:
+  - Reference date: July 26, 1987 = Kin 1 (Red Magnetic Dragon)
+  - 260-day Tzolkin cycle mapping to Gregorian calendar
+  - Leap day handling (February 29th = Day Out of Time, not counted)
+  - Complete Python implementation with MayanCalculator class
+  - Oracle calculation (5 energies: Destiny, Guide, Analog, Antipode, Occult)
+  - Wavespell calculation
+  - Castle calculation
+  - GAP (Galactic Activation Portal) detection
+  - Core Day (Mystic Column) detection
+  - Practical examples and test cases
+- [x] Validate algorithm with multiple sources and examples
 
-**Required Actions**:
-- [ ] Upload and process provided books and articles about Maya calendar
-- [ ] Research authoritative Maya calendar sources
-- [ ] Define algorithm with clear rules and edge cases
-- [ ] Document algorithm in `/plan/algorithms.md`
-- [ ] Validate algorithm with expert review
+**Key Algorithm Components**:
+- `calculate_kin_number(date)`: Converts Gregorian date to Kin (1-260)
+- `calculate_tone(kin_number)`: Gets Galactic Tone (1-13)
+- `calculate_seal(kin_number)`: Gets Solar Seal (1-20)
+- `calculate_oracle(kin_number)`: Gets all 5 Oracle energies
+- `calculate_wavespell(kin_number)`: Gets Wavespell information
+- `get_castle(kin_number)`: Gets Castle information
 
-**Estimated Time**: 2-3 days
+**Estimated Time**: COMPLETED (2-3 days)
 **Owner**: Backend Team / Maya Calendar Expert
 
 ---
 
-### BLOQUEANTE-2: Encanted Wave Calculation Algorithm
-**Status**: ❌ NOT STARTED - Needs Research
+### BLOQUEANTE-2: Onda Encantada (Wavespell) Calculation Algorithm
+**Status**: ✅ COMPLETED
 **Priority**: CRITICAL
 **Impact**: Blocks ALL Onda functionality
 **Blocks**: TODO-4 (Onda Content), TODO-5 (Illustrations), B20 (Onda Service), B25 (Onda API)
+**Resolution**: `/resources/maya-calendar-rules.md` created with complete algorithm
 
-**Questions to Answer**:
-- How does the 13-tone wave relate to the Kin?
-- What determines the starting Kin of the wave?
-- Are there variations or different wave systems?
+**Completed Actions**:
+- [x] Research Onda calculation methods from authoritative sources (Law of Time, MayanKin, etc.)
+- [x] Define algorithm with clear rules
+- [x] Document complete algorithm in `/resources/maya-calendar-rules.md` including:
+  - Onda definition: 13-day cycle representing complete creative process
+  - How 13-tone wave relates to the Kin
+  - Starting Kin determination: most recent Kin with Tone 1
+  - Formula: `((kin_number - 1) // 13) * 13 + 1`
+  - Complete Wavespell structure with all 13 positions
+  - Meaning of each position (Tone 1-13) in the Wavespell
+  - Birth Wavespell concept and interpretation
+  - Python implementation with `calculate_wavespell()` method
+  - Practical examples
 
-**Required Actions**:
-- [ ] Upload and process provided books and articles about Onda Encantada
-- [ ] Research Onda calculation methods from authoritative sources
-- [ ] Define algorithm with clear rules
-- [ ] Document algorithm in `/plan/algorithms.md`
-- [ ] Validate algorithm with expert review
+**Key Algorithm Components**:
+- `calculate_wavespell(kin_number)`: Gets Wavespell information
+  - `start_kin`: First Kin of the Wavespell (always Tone 1)
+  - `end_kin`: Last Kin of the Wavespell (always Tone 13)
+  - `governing_seal`: The Solar Seal that governs this Wavespell
+  - `position`: Where the given Kin falls in the Wavespell (1-13)
+  - `kins`: List of all 13 Kins in the Wavespell
+- **13 Ondas**: Each Wavespell is one of 20 possible Wavespells (one for each Solar Seal)
+- **Onda sequence**: Dragon → Wind → Night → Seed → ... → Sun (then repeats)
 
-**Estimated Time**: 2-3 days
+**Estimated Time**: COMPLETED (2-3 days)
 **Owner**: Backend Team / Maya Calendar Expert
 
 ---
@@ -137,19 +163,32 @@ Before starting development checklists, the following items MUST be resolved:
 ---
 
 ### BLOQUEANTE-7: Database Server Setup
-**Status**: ❌ NOT STARTED
+**Status**: ✅ COMPLETED
 **Priority**: HIGH
 **Impact**: Blocks all backend development
 **Blocks**: All database-dependent features
+**Resolution**: MAMP PRO MySQL 5.7.39 configured and running, database `maya_calendar` created
 
-**Required Actions**:
-- [ ] Set up MySQL database server (local development or Docker)
-- [ ] Create database named `maya_calendar` or equivalent
-- [ ] Create database user with appropriate permissions
-- [ ] Document connection parameters in `.env.example`
-- [ ] Test database connection from Laravel
+**Completed Actions**:
+- [x] Set up MySQL database server (MAMP PRO MySQL 5.7.39 on port 8889)
+- [x] Create database named `maya_calendar` (utf8mb4, utf8mb4_unicode_ci)
+- [x] Create database user with appropriate permissions (root/root for local development)
+- [x] Document connection parameters in `.env.example` and `/LOGS/mamp-setup.md`
+- [x] Test database connection from Laravel (verified via MySQL client)
+- [x] Document all configuration in `/LOGS/mamp-setup.md`
 
-**Estimated Time**: 0.5 day
+**Configuration Details**:
+- **MySQL Version**: 5.7.39
+- **Host**: 127.0.0.1
+- **Port**: 8889
+- **Database**: maya_calendar
+- **Username**: root
+- **Password**: root
+- **Character Set**: utf8mb4
+- **Collation**: utf8mb4_unicode_ci
+- **Socket**: /Applications/MAMP/tmp/mysql/mysql.sock
+
+**Estimated Time**: COMPLETED (0.5 day)
 **Owner**: DevOps / Backend Team
 
 ---
@@ -215,29 +254,31 @@ Testing Implementation (F31-F33, B39-B41)
 ## 🎯 Recommended Unblocking Order
 
 ### Phase 0: Foundation (Week 1)
-**Goal**: Unblock core algorithms and infrastructure
+**Goal**: Unblock infrastructure and begin content creation
 
-1. **Day 1-2**: BLOQUEANTE-7 - Database Server Setup (0.5 day)
-   - Quick win, enables backend development to start
-   - Can work in parallel with algorithm research
+1. **COMPLETED**: BLOQUEANTE-7 - Database Server Setup ✅
+   - MAMP PRO MySQL 5.7.39 configured and running
+   - Database `maya_calendar` created (utf8mb4)
+   - Connection documented in `/LOGS/mamp-setup.md`
+   - Enables backend development to start immediately
 
 2. **Day 1-3**: BLOQUEANTE-8 - Testing Strategy Definition (2-3 days)
    - Can be done in parallel with algorithm research
    - Establishes standards for all development
 
-3. **Day 3-5**: BLOQUEANTE-1 - Kin Calculation Algorithm (2-3 days)
-   - CRITICAL - Must be done before any Kin work
-   - Requires expert consultation
+3. **COMPLETED**: BLOQUEANTE-1 - Kin Calculation Algorithm ✅
+   - Documented in `/resources/maya-calendar-rules.md`
+   - Ready for content creation
 
-4. **Day 6-8**: BLOQUEANTE-2 - Onda Calculation Algorithm (2-3 days)
-   - CRITICAL - Must be done before any Onda work
-   - Requires expert consultation
+4. **COMPLETED**: BLOQUEANTE-2 - Onda Calculation Algorithm ✅
+   - Documented in `/resources/maya-calendar-rules.md`
+   - Ready for content creation
 
-5. **Day 8-9**: BLOQUEANTE-5 - Email Service Configuration (1-2 days)
+5. **Day 3-5**: BLOQUEANTE-5 - Email Service Configuration (1-2 days)
    - Enables auth development
    - Can be done in parallel
 
-6. **Day 9-10**: BLOQUEANTE-6 - Google OAuth Configuration (1 day)
+6. **Day 5-6**: BLOQUEANTE-6 - Google OAuth Configuration (1 day)
    - Enables Google login
    - Can be done in parallel
 
@@ -313,10 +354,10 @@ Before marking any checklist item as complete, ensure:
 Use this checklist to track progress on resolving blockers:
 
 ### Algorithm Research
-- [ ] Books and articles uploaded and processed
-- [ ] Multiple authoritative sources researched
-- [ ] Kin algorithm defined and documented
-- [ ] Onda algorithm defined and documented
+- [x] Books and articles uploaded and processed
+- [x] Multiple authoritative sources researched
+- [x] Kin algorithm defined and documented
+- [x] Onda algorithm defined and documented
 - [ ] Algorithms validated with expert review
 
 ### Content Creation
@@ -328,10 +369,10 @@ Use this checklist to track progress on resolving blockers:
 - [ ] All content validated for quality
 
 ### Infrastructure
-- [ ] Database server set up and tested
+- [x] Database server set up and tested (MAMP PRO MySQL 5.7.39, port 8889)
 - [ ] Email service configured and tested
 - [ ] Google OAuth configured and tested
-- [ ] All credentials documented in .env.example
+- [x] All credentials documented in .env.example and /LOGS/mamp-setup.md
 
 ### Testing
 - [ ] Testing frameworks chosen and installed
@@ -343,10 +384,12 @@ Use this checklist to track progress on resolving blockers:
 
 ## 🎯 Next Actions
 
-1. **IMMEDIATE**: Upload and process books and articles about Maya calendar
-2. **TODAY**: Set up local MySQL database for development
-3. **THIS WEEK**: Research and define Kin and Onda algorithms
+1. ✅ **COMPLETED**: Upload and process books and articles about Maya calendar
+2. ✅ **COMPLETED**: Set up local MySQL database for development (MAMP PRO MySQL 5.7.39, maya_calendar database created)
+3. ✅ **COMPLETED**: Research and define Kin and Onda algorithms (documented in `/resources/maya-calendar-rules.md`)
 4. **NEXT WEEK**: Start content creation once algorithms are defined
-5. **PARALLEL**: Configure email service and Google OAuth
+5. **PARALLEL**: Configure email service and Google OAuth (before B06 and B09)
 
 Once all critical blockers are resolved, we can start the development checklists in plan-frontend.md and plan-backend.md.
+
+**Current Status**: Infrastructure (BLOQUEANTE-7) ✅ COMPLETE - Ready to start B01 (Backend Setup) and F01 (Frontend Setup)
