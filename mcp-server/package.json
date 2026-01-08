@@ -1,0 +1,26 @@
+{
+  "name": "maya-calendar-mcp-server",
+  "version": "2.0.0",
+  "description": "MCP Server v2.0 para control del Calendario Maya via API REST (100% datos REALES)",
+  "main": "maya-calendar-server-v2.js",
+  "type": "module",
+  "scripts": {
+    "start": "node maya-calendar-server-v2.js",
+    "start:dev": "node --watch maya-calendar-server-v2.js",
+    "test": "node tests/run-all-tests.js",
+    "test:e2e": "node tests/e2e/run-e2e-tests.js",
+    "test:stress": "node tests/stress/run-stress-tests.js",
+    "test:integrity": "node tests/integrity/run-integrity-tests.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "axios": "^1.7.9",
+    "better-sqlite3": "^12.5.0",
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "Maya Calendar Team",
+  "license": "MIT"
+}
