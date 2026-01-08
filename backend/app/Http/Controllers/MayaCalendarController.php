@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Services\MayaCalculatorService;
 use App\Services\DateConversionService;
+use App\Models\Kin;
 
 class MayaCalendarController extends Controller
 {
@@ -194,11 +195,40 @@ class MayaCalendarController extends Controller
             ], 400);
         }
 
+        $kin = Kin::with(['wavespell', 'castle'])
+            ->where('kin_number', $kinId)
+            ->first();
+
+        if (!$kin) {
+            return response()->json([
+                'error' => 'Kin not found',
+                'message' => "Kin number {$kinId} not found",
+            ], 404);
+        }
+
         $oracle = $this->mayaCalculator->getOracle($kinId);
 
-        return response()->json([
-            'kin_id' => $kinId,
-            'oracle' => $oracle,
-        ]);
+        $oracleKinIds = array_values($oracle);
+
+        $oracleKins = Kin::whereIn('kin_number', $oracleKinIds)
+            ->get()
+            ->keyBy('kin_number');
+
+        $oracleData = [
+            'destiny' => $oracleKins->get($oracle['destiny']),
+            'guide' => $oracleKins->get($oracle['guide']),
+            'analog' => $oracleKins->get($oracle['analog']),
+            'antipode' => $oracleKins->get($oracle['antipode']),
+            'occult' => $oracleKins->get($oracle['occult']),
+        ];
+
+        $kinData = [
+            'kin_number' => $kin->kin_number,
+            'solar_seal' => $kin->solar_seal,
+            'galactic_tone' => $kin->galactic_tone,
+            'oracle' => $oracleData,
+        ];
+
+        return response()->json($kinData);
     }
 }

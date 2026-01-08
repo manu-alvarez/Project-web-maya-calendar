@@ -54,12 +54,12 @@ Route::prefix('calendar')->group(function () {
 
 Route::prefix('kins')->group(function () {
     Route::get('/', [KinController::class, 'index']);
-    Route::get('/{kinId}', [KinController::class, 'show']);
+    Route::get('/gaps', [KinController::class, 'gaps']);
+    Route::get('/core-days', [KinController::class, 'coreDays']);
     Route::get('/search/seal/{seal}', [KinController::class, 'searchBySeal']);
     Route::get('/search/tone/{tone}', [KinController::class, 'searchByTone']);
     Route::get('/search/color/{color}', [KinController::class, 'searchByColor']);
-    Route::get('/gaps', [KinController::class, 'gaps']);
-    Route::get('/core-days', [KinController::class, 'coreDays']);
+    Route::get('/{kinId}', [KinController::class, 'show']);
 });
 
 Route::prefix('wavespells')->group(function () {

@@ -9,6 +9,8 @@ class Kin extends Model
 {
     use HasFactory;
 
+    protected $table = 'kins';
+
     protected $fillable = [
         'kin_number',
         'solar_seal',
