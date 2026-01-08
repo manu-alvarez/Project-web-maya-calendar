@@ -9,6 +9,8 @@ class UserDailyKin extends Model
 {
     use HasFactory;
 
+    protected $table = 'user_daily_kins';
+
     protected $fillable = [
         'user_id',
         'date',
@@ -19,6 +21,7 @@ class UserDailyKin extends Model
         'viewed_at',
         'oracle_data',
         'notes',
+        'mood',
     ];
 
     protected $casts = [

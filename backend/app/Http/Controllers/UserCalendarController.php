@@ -56,7 +56,7 @@ class UserCalendarController extends Controller
         return response()->json([
             'date' => $today,
             'kin' => $kinData,
-            'user_daily_kin' => $userDailyKin,
+            'saved_kin' => $userDailyKin,
         ]);
     }
 
@@ -83,13 +83,22 @@ class UserCalendarController extends Controller
     public function saveDailyKin(Request $request): JsonResponse
     {
         $request->validate([
-            'date' => 'required|date',
+            'kin_id' => 'nullable|integer|min:1|max:260',
+            'date' => 'nullable|date',
             'notes' => 'nullable|string|max:1000',
+            'mood' => 'nullable|string|max:50',
         ]);
 
         $user = auth()->user();
-        $date = $request->input('date');
-        $kinNumber = $this->mayaCalculator->calculateKinFromDate($date);
+
+        $kinNumber = $request->has('kin_id') ? $request->input('kin_id') : null;
+        $date = $request->has('date') ? $request->input('date') : now()->toDateString();
+
+        if (!$kinNumber && !$date) {
+            $date = now()->toDateString();
+        }
+
+        $kinNumber = $kinNumber ?: $this->mayaCalculator->calculateKinFromDate($date);
 
         $userDailyKin = UserDailyKin::updateOrCreate(
             [
@@ -101,12 +110,10 @@ class UserCalendarController extends Controller
                 'wavespell_id' => $this->mayaCalculator->calculateWavespellId($kinNumber),
                 'castle_id' => $this->mayaCalculator->calculateCastleId($kinNumber),
                 'notes' => $request->input('notes'),
+                'mood' => $request->input('mood'),
             ]
         );
 
-        return response()->json([
-            'message' => 'Daily kin saved successfully',
-            'user_daily_kin' => $userDailyKin,
-        ]);
+        return response()->json($userDailyKin, 201);
     }
 }

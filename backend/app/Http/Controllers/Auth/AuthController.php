@@ -67,7 +67,12 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $tokenString = str_replace('Bearer ', '', $request->header('Authorization', ''));
+        $token = $request->user()->tokens()->where('token', hash('sha256', $tokenString))->first();
+
+        if ($token) {
+            $token->delete();
+        }
 
         return response()->json([
             'message' => 'Sesión cerrada exitosamente',
@@ -94,6 +99,8 @@ class AuthController extends Controller
 
         $user = User::where('google_id', $request->google_id)->first();
 
+        $statusCode = 200;
+
         if (!$user) {
             $user = User::create([
                 'name' => $request->name,
@@ -103,6 +110,7 @@ class AuthController extends Controller
                 'is_google_user' => true,
                 'password' => Hash::make(Str::random(32)),
             ]);
+            $statusCode = 201;
         }
 
         $token = $user->createToken('auth-token')->plainTextToken;
@@ -110,6 +118,6 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token,
-        ]);
+        ], $statusCode);
     }
 }

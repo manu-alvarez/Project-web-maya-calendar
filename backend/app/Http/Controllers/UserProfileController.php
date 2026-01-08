@@ -37,6 +37,8 @@ class UserProfileController extends Controller
     public function updateProfile(Request $request): JsonResponse
     {
         $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . auth()->id(),
             'birth_date' => 'nullable|date',
             'preferences' => 'nullable|array',
         ]);
@@ -48,6 +50,14 @@ class UserProfileController extends Controller
             $profile = UserProfile::create([
                 'user_id' => $user->id,
             ]);
+        }
+
+        if ($request->has('name')) {
+            $user->name = $request->input('name');
+        }
+
+        if ($request->has('email')) {
+            $user->email = $request->input('email');
         }
 
         if ($request->has('birth_date')) {
@@ -78,10 +88,12 @@ class UserProfileController extends Controller
         }
 
         $profile->save();
+        $user->save();
 
         return response()->json([
-            'message' => 'Profile updated successfully',
-            'profile' => $profile->load('birthKin'),
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
         ]);
     }
 }
